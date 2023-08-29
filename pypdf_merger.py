@@ -4,20 +4,23 @@ import re
 
 
 # マージするPDFファイルが入っているフォルダを指定
-folder_path = 'D://s_dl/ndl/src'
+source_path = 'D://s_dl/ndl/src'
 ## フォルダにPDFファイルが入っていない場合は終了
 ## 入っている場合は"マージ作業を開始します"と表示
-if not os.listdir(folder_path):
+if not os.listdir(source_path):
     print('フォルダにPDFファイルが入っていません')
     exit()
 else:
     print('マージ作業を開始します')
 
+# マージしたPDFファイルを出力するフォルダを指定
+library_path = "D:/s_dl/ndl/lib/"
+
 # PDFファイルの名前とパスを取得
 pdf_files = []
-for filename in os.listdir(folder_path):
+for filename in os.listdir(source_path):
     if filename.endswith('.pdf'):
-        pdf_files.append(os.path.join(folder_path, filename))
+        pdf_files.append(os.path.join(source_path, filename))
 ## PDFファイルの数を表示
 print('PDFファイルの数: ' + str(len(pdf_files)))
 
@@ -78,11 +81,10 @@ for ndl_id, pdf_files in pdf_files_grouped.items():
 
     ## マージしたPDFファイルを出力
     ## フォルダを作成して、その中に出力
-    base_path = "D:/s_dl/ndl/lib/"
-    folder_path = os.path.join(base_path, Keywords_publisher, folder_name)
+    library_output_path = os.path.join(library_path, Keywords_publisher, folder_name)
     ## 必要なディレクトリを再帰的に作成
-    os.makedirs(folder_path, exist_ok=True)
-    merger.write("D://s_dl/ndl/lib/" + Keywords_publisher + "/" + folder_name + "/" + merged_file_name)
+    os.makedirs(source_path, exist_ok=True)
+    merger.write(library_output_path + Keywords_publisher + "/" + folder_name + "/" + merged_file_name)
     merger.close()
     print('PDFグループ' + str(list(pdf_files_grouped.keys()).index(ndl_id) + 1) + 'を処理しました')
 
