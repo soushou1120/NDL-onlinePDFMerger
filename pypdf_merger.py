@@ -83,8 +83,8 @@ for ndl_id, pdf_files in pdf_files_grouped.items():
     ## フォルダを作成して、その中に出力
     library_output_path = os.path.join(library_path, Keywords_publisher, folder_name)
     ## 必要なディレクトリを再帰的に作成
-    os.makedirs(source_path, exist_ok=True)
-    merger.write(library_output_path + Keywords_publisher + "/" + folder_name + "/" + merged_file_name)
+    os.makedirs(library_output_path, exist_ok=True)
+    merger.write(library_output_path + "/" + merged_file_name)
     merger.close()
     print('PDFグループ' + str(list(pdf_files_grouped.keys()).index(ndl_id) + 1) + 'を処理しました')
 
