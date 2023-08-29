@@ -78,9 +78,11 @@ for ndl_id, pdf_files in pdf_files_grouped.items():
 
     ## マージしたPDFファイルを出力
     ## フォルダを作成して、その中に出力
-    if not os.path.exists("D://s_dl/ndl/lib/" + folder_name + '/' + Keywords_publisher + '/'):
-        os.mkdir("D://s_dl/ndl/lib/" + folder_name + '/' + Keywords_publisher + '/')
-    merger.write("D://s_dl/ndl/lib/" + folder_name + '/' + Keywords_publisher + '/' + merged_file_name)
+    base_path = "D:/s_dl/ndl/lib/"
+    folder_path = os.path.join(base_path, Keywords_publisher, folder_name)
+    ## 必要なディレクトリを再帰的に作成
+    os.makedirs(folder_path, exist_ok=True)
+    merger.write("D://s_dl/ndl/lib/" + Keywords_publisher + "/" + folder_name + "/" + merged_file_name)
     merger.close()
     print('PDFグループ' + str(list(pdf_files_grouped.keys()).index(ndl_id) + 1) + 'を処理しました')
 
