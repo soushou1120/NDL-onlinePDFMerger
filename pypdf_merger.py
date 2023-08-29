@@ -65,10 +65,16 @@ for ndl_id, pdf_files in pdf_files_grouped.items():
     merger.add_metadata(d)
 
     ## メタデータの内、Keywordsを使って、フォルダ名を設定
-    folder_name = d['/Keywords'].split(',')[0]
+    ### Keywordsの0番目が著者とタイトル、1番目が出版社、2番目が出版年（不要な情報も含まれる）
+    Keywords_title_author = d['/Keywords'].split(',')[0]
+    Keywords_publisher = d['/Keywords'].split(',')[1]
+    Keywords_year = d['/Keywords'].split(',')[2]
+    dot_index = Keywords_year.index('.')
+    Keywords_year = Keywords_year[:dot_index] 
+    ### フォルダ名は出版年 + 出版社 + ndl_id + 著者とタイトル
+    folder_name = Keywords_year + '_' + Keywords_publisher + '_' + ndl_id + '_' + Keywords_title_author
     ## folder_nameからフォルダー名に使えない文字を削除
     folder_name = re.sub(r'[\\/:*?"<>|]', '', folder_name)
-    folder_name = ndl_id + '_' + folder_name
 
     ## マージしたPDFファイルを出力
     ## フォルダを作成して、その中に出力
