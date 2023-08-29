@@ -64,7 +64,7 @@ for ndl_id, pdf_files in pdf_files_grouped.items():
     d = {k: d[k] for k in d.keys()}
     merger.add_metadata(d)
 
-    ## メタデータの内、Keywrodsを使って、フォルダ名を設定
+    ## メタデータの内、Keywordsを使って、フォルダ名を設定
     folder_name = d['/Keywords'].split(',')[0]
     ## folder_nameからフォルダー名に使えない文字を削除
     folder_name = re.sub(r'[\\/:*?"<>|]', '', folder_name)
