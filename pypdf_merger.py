@@ -71,16 +71,16 @@ for ndl_id, pdf_files in pdf_files_grouped.items():
     Keywords_year = d['/Keywords'].split(',')[2]
     dot_index = Keywords_year.index('.')
     Keywords_year = Keywords_year[:dot_index] 
-    ### フォルダ名は出版年 + 出版社 + ndl_id + 著者とタイトル
-    folder_name = Keywords_year + '_' + Keywords_publisher + '_' + ndl_id + '_' + Keywords_title_author
+    ### フォルダ名は出版社 + 出版年 + ndl_id + 著者とタイトル
+    folder_name = Keywords_publisher + '_' + Keywords_year + '_' + ndl_id + '_' + Keywords_title_author
     ## folder_nameからフォルダー名に使えない文字を削除
     folder_name = re.sub(r'[\\/:*?"<>|]', '', folder_name)
 
     ## マージしたPDFファイルを出力
     ## フォルダを作成して、その中に出力
-    if not os.path.exists("D://s_dl/ndl/lib/" + folder_name):
-        os.mkdir("D://s_dl/ndl/lib/" + folder_name)
-    merger.write("D://s_dl/ndl/lib/" + folder_name + '/' + merged_file_name)
+    if not os.path.exists("D://s_dl/ndl/lib/" + folder_name + '/' + Keywords_publisher + '/'):
+        os.mkdir("D://s_dl/ndl/lib/" + folder_name + '/' + Keywords_publisher + '/')
+    merger.write("D://s_dl/ndl/lib/" + folder_name + '/' + Keywords_publisher + '/' + merged_file_name)
     merger.close()
     print('PDFグループ' + str(list(pdf_files_grouped.keys()).index(ndl_id) + 1) + 'を処理しました')
 
