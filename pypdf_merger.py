@@ -14,7 +14,7 @@ else:
     print('マージ作業を開始します')
 
 # マージしたPDFファイルを出力するフォルダを指定
-library_path = "D:/s_dl/ndl/lib/"
+library_path = 'D:/s_dl/ndl/lib/'
 
 # PDFファイルの名前とパスを取得
 pdf_files = []
@@ -25,7 +25,7 @@ for filename in os.listdir(source_path):
 print('PDFファイルの数: ' + str(len(pdf_files)))
 
 # ndlの永続的識別子
-ndl_id = r"digidepo_(\d+)_"
+ndl_id = r'digidepo_(\d+)_'
 
 # ndl_idごとにファイルをグループ化
 pdf_files_grouped = {}
@@ -49,7 +49,7 @@ for ndl_id, pdf_files in pdf_files_grouped.items():
     ## 括弧がない場合は、括弧がある場合よりも前に来るようにする
     ## 括弧がある場合は、括弧の中身でソート
     def sort_key(pdf_file):
-        match = re.search(r"\((\d+)\)", pdf_file)
+        match = re.search(r'\((\d+)\)', pdf_file)
         if match:
             return int(match.group(1))
         else:
@@ -84,7 +84,7 @@ for ndl_id, pdf_files in pdf_files_grouped.items():
     library_output_path = os.path.join(library_path, Keywords_publisher, folder_name)
     ## 必要なディレクトリを再帰的に作成
     os.makedirs(library_output_path, exist_ok=True)
-    merger.write(library_output_path + "/" + merged_file_name)
+    merger.write(library_output_path + '/' + merged_file_name)
     merger.close()
     print('PDFグループ' + str(list(pdf_files_grouped.keys()).index(ndl_id) + 1) + 'を処理しました')
 
