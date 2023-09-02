@@ -33,7 +33,7 @@ merged_file_name = 'digidepo_' + ndl_id + '_merged.pdf'
 ```
 で保存します
 ## 振り分けの仕様
-メタデータのうち、`/Keywords`を利用してPDFファイルを振り分けます
+metadataのうち、`/Keywords`を利用してPDFファイルを振り分けます
 ### フォルダを作成
 `library_path`の下に、二つのフォルダを作成します
 
