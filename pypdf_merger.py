@@ -16,7 +16,7 @@ else:
 # マージしたPDFファイルを出力するフォルダを指定
 library_path = 'D:/s_dl/ndl/lib/'
 
-# ndlの永続的識別子
+# ndlの永続的識別子の正規表現
 ndl_id_re = r'digidepo_(\d+)_'
 
 # PDFファイルの名前とパスを取得
@@ -44,8 +44,6 @@ def group_pdf_files(pdf_files):
     print('PDFグループの数: ' + str(len(pdf_files_grouped)))
     return pdf_files_grouped
 
-
-
 # ndl_idごとにPDFファイルをソートしてマージ
 def merge_pdf_files(pdf_files_grouped):
     for ndl_id, pdf_files in pdf_files_grouped.items():
@@ -66,6 +64,7 @@ def merge_pdf_files(pdf_files_grouped):
         
         ## マージしたPDFファイルの名前を設定
         merged_file_name = 'digidepo_' + ndl_id + '_merged.pdf'
+        ## マージする
         merger = pypdf.PdfMerger()
         for pdf_file in pdf_files:
             merger.append(pdf_file)
@@ -78,9 +77,10 @@ def merge_pdf_files(pdf_files_grouped):
         ## メタデータの内、Keywordsを使って、フォルダ名を設定
         ### Keywordsはテキストで、カンマで区切られている
         ### しかし、著者が複数の場合にもカンマが含まれていることがあるため、前後にスペースがないカンマで区切ることで解決する必要がある　（スペースが前または後にあるカンマは区分内の区分に用いられている）
-        ### Keywordsの0番目が著者とタイトル、1番目が出版社、2番目が出版年（不要な情報も含まれる）
+        ### Keywordsの0番目が著者とタイトル、1番目が出版社、2番目が出版年 （不要な情報も含まれている）
         print(pdf_metadata['/Keywords'])
-        
+
+        ### Keywordsをカンマで区切る関数
         def Keywords_splitter(Keywords):
             Keywords_slicer = [m.start() for m in re.finditer(r'\S,\S', Keywords)]
             parts = []
@@ -93,6 +93,7 @@ def merge_pdf_files(pdf_files_grouped):
             return parts
         Split_keywords = Keywords_splitter(pdf_metadata['/Keywords'])
         
+        ### 分かりやすくするために、Keywordsの要素を変数に代入
         Keywords_title_author = Split_keywords[0]
         Keywords_publisher = Split_keywords[1]
         Keywords_year = Split_keywords[2]
@@ -101,14 +102,14 @@ def merge_pdf_files(pdf_files_grouped):
 
         ### フォルダ名は出版社 + 出版年 + ndl_id + 著者とタイトル
         folder_name = Keywords_publisher + '_' + Keywords_year + '_' + ndl_id + '_' + Keywords_title_author
-        ## folder_nameからフォルダー名に使えない文字を削除
+        ### folder_nameからフォルダー名に使えない文字を削除
         folder_name = re.sub(r'[\\/:*?"<>|]', '', folder_name)
         print(folder_name)
 
         ## マージしたPDFファイルを出力
-        ## フォルダを作成して、その中に出力
+        ### フォルダを作成して、その中に出力
         library_output_path = os.path.join(library_path, Keywords_publisher, folder_name)
-        ## 必要なディレクトリを再帰的に作成
+        ### 必要なディレクトリを作成
         os.makedirs(library_output_path, exist_ok=True)
         merger.write(library_output_path + '/' + merged_file_name)
         merger.close()
@@ -116,9 +117,7 @@ def merge_pdf_files(pdf_files_grouped):
     print(' ')
     print('マージ作業が完了しました')
 
-        
 if __name__ == '__main__':
     pdf_files = get_pdf_files(source_path)
     pdf_files_grouped = group_pdf_files(pdf_files)
     merge_pdf_files(pdf_files_grouped)
-
