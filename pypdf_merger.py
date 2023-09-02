@@ -14,7 +14,7 @@ else:
     print('マージ作業を開始します')
 
 # マージしたPDFファイルを出力するフォルダを指定
-library_path = 'D:/s_dl/ndl/lib/'
+library_path = 'D://s_dl/ndl/lib/'
 
 # ndlの永続的識別子の正規表現
 ndl_id_re = r'digidepo_(\d+)_'
