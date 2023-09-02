@@ -40,8 +40,9 @@ merged_file_name = 'digidepo_' + ndl_id + '_merged.pdf'
 `/Keywords`に含まれる、著者とタイトル`Keywords_title_author`、出版社`Keywords_publisher`、出版年`Keywords_year`のデータを利用して、
 ```
 folder_name = Keywords_publisher + '_' + Keywords_year + '_' + ndl_id + '_' + Keywords_title_author
-library_path/Keywords_publisher/folder_name
+library_output_path = os.path.join(library_path, Keywords_publisher, folder_name)
+os.makedirs(library_output_path, exist_ok=True)
 ```
-と、出版社の階層の下に、出版社_出版年_`ndl_id`_著者とタイトルの階層を作ります
+と、「出版社の階層」の下に、「出版社_出版年_`ndl_id`_著者とタイトルの階層」を作ります
 
 すなわち、`D://hogehoge/中央公論社/中央公論社_昭和10_1234567_矢田插雲 著『太閤記』第9巻`のような形式です
