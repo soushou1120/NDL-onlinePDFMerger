@@ -99,7 +99,7 @@ def merge_pdf_files(pdf_files_grouped):
         print(folder_name)
 
         ## マージしたPDFファイルの名前を設定
-        merged_file_name = Keywords_title_author + ndl_id + '_merged.pdf'
+        merged_file_name = Keywords_title_author + '_' + ndl_id + '_merged.pdf'
         ## マージする
         merger = pypdf.PdfMerger()
         for pdf_file in pdf_files:
