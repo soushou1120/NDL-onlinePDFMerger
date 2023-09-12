@@ -99,14 +99,14 @@ def merge_pdf_files(pdf_files_grouped):
         print(folder_name)
 
         ## マージしたPDFファイルの名前を設定
-        merged_file_name = 'digidepo_' + ndl_id + '_merged.pdf'
+        merged_file_name = Keywords_title_author + ndl_id + '_merged.pdf'
         ## マージする
         merger = pypdf.PdfMerger()
         for pdf_file in pdf_files:
             merger.append(pdf_file)
         ## ここでメタデータを設定
         merger.add_metadata(pdf_metadata)
-        
+
         ## マージしたPDFファイルを出力
         ### フォルダを作成して、その中に出力
         library_output_path = os.path.join(library_path, Keywords_publisher, folder_name)
