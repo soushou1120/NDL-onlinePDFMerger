@@ -4,9 +4,9 @@ import re
 
 
 # マージするPDFファイルが入っているフォルダを指定
-source_path = 'PDFをダウンロードするフォルダのパス'
+source_path = 'D://s_dl/ndl/src'
 # マージしたPDFファイルを出力するフォルダを指定
-library_path = '結合したPDFを保存するフォルダのパス'
+library_path = 'D://s_dl/ndl/lib'
 ## フォルダにPDFファイルが入っていない場合は終了
 ## 入っている場合は"マージ作業を開始します"と表示
 if not os.listdir(source_path):
@@ -61,17 +61,10 @@ def merge_pdf_files(pdf_files_grouped):
                 return -1
         pdf_files.sort(key=sort_key)
         
-        ## マージしたPDFファイルの名前を設定
-        merged_file_name = 'digidepo_' + ndl_id + '_merged.pdf'
-        ## マージする
-        merger = pypdf.PdfMerger()
-        for pdf_file in pdf_files:
-            merger.append(pdf_file)
-
         ## メタデータを設定
+        ## 実際にメタデータを設定するのは、PDFをマージした後
         pdf_metadata = pypdf.PdfReader(pdf_files[0]).metadata
         pdf_metadata = {k: pdf_metadata[k] for k in pdf_metadata.keys()}
-        merger.add_metadata(pdf_metadata)
 
         ## メタデータの内、Keywordsを使って、フォルダ名を設定
         ### Keywordsはテキストで、カンマで区切られている
@@ -105,6 +98,15 @@ def merge_pdf_files(pdf_files_grouped):
         folder_name = re.sub(r'[\\/:*?"<>|]', '', folder_name)
         print(folder_name)
 
+        ## マージしたPDFファイルの名前を設定
+        merged_file_name = 'digidepo_' + ndl_id + '_merged.pdf'
+        ## マージする
+        merger = pypdf.PdfMerger()
+        for pdf_file in pdf_files:
+            merger.append(pdf_file)
+        ## ここでメタデータを設定
+        merger.add_metadata(pdf_metadata)
+        
         ## マージしたPDFファイルを出力
         ### フォルダを作成して、その中に出力
         library_output_path = os.path.join(library_path, Keywords_publisher, folder_name)
