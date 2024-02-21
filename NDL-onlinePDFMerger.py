@@ -4,9 +4,9 @@ import re
 
 
 # マージするPDFファイルが入っているフォルダを指定
-source_path = 'D://s_dl/ndl/src'
+source_path = 'PDFをダウンロードするフォルダのパス'
 # マージしたPDFファイルを出力するフォルダを指定
-library_path = 'D://s_dl/ndl/lib'
+library_path = '結合したPDFを保存するフォルダのパス'
 ## フォルダにPDFファイルが入っていない場合は終了
 ## 入っている場合は"マージ作業を開始します"と表示
 if not os.listdir(source_path):
