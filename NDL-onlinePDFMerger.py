@@ -95,11 +95,13 @@ def merge_pdf_files(pdf_files_grouped):
         ### フォルダ名は出版社 + 出版年 + ndl_id + 著者とタイトル
         folder_name = Keywords_publisher + '_' + Keywords_year + '_' + ndl_id + '_' + Keywords_title_author
         ### folder_nameからフォルダー名に使えない文字を削除
+        Keywords_title_author = re.sub(r'[\\/:*?"<>|]', '', Keywords_title_author)
         folder_name = re.sub(r'[\\/:*?"<>|]', '', folder_name)
         print(folder_name)
 
         ## マージしたPDFファイルの名前を設定
         merged_file_name = Keywords_title_author + '_' + ndl_id + '.pdf'
+        print(merged_file_name)
         ## マージする
         merger = pypdf.PdfMerger()
         for pdf_file in pdf_files:
@@ -110,6 +112,7 @@ def merge_pdf_files(pdf_files_grouped):
         ## マージしたPDFファイルを出力
         ### フォルダを作成して、その中に出力
         library_output_path = os.path.join(library_path, Keywords_publisher, folder_name)
+        print(library_output_path)
         ### 必要なディレクトリを作成
         os.makedirs(library_output_path, exist_ok=True)
         merger.write(library_output_path + '/' + merged_file_name)
