@@ -103,11 +103,13 @@ def merge_pdf_files(pdf_files_grouped):
         merged_file_name = Keywords_title_author + '_' + ndl_id + '.pdf'
         print(merged_file_name)
         ## マージする
-        merger = pypdf.PdfMerger()
+        writer = pypdf.PdfWriter()
         for pdf_file in pdf_files:
-            merger.append(pdf_file)
+            reader = pypdf.PdfReader(pdf_file)
+            for page in reader.pages:
+                writer.add_page(page)
         ## ここでメタデータを設定
-        merger.add_metadata(pdf_metadata)
+        writer.add_metadata(pdf_metadata)
 
         ## マージしたPDFファイルを出力
         ### フォルダを作成して、その中に出力
@@ -115,8 +117,8 @@ def merge_pdf_files(pdf_files_grouped):
         print(library_output_path)
         ### 必要なディレクトリを作成
         os.makedirs(library_output_path, exist_ok=True)
-        merger.write(library_output_path + '/' + merged_file_name)
-        merger.close()
+        with open(library_output_path + '/' + merged_file_name, 'wb') as output_file:
+            writer.write(output_file)
         print('PDFグループ' + str(list(pdf_files_grouped.keys()).index(ndl_id) + 1) + 'を処理しました')
     print(' ')
     print('マージ作業が完了しました')
